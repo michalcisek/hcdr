@@ -1,0 +1,8 @@
+#download data using kaggle API
+kaggle competitions download -c home-credit-default-risk -p .
+
+#unzip all files
+for file in *zip; do unzip $file; done
+
+#remove zip files
+rm *zip
