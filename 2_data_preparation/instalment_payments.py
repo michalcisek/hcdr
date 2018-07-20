@@ -18,7 +18,7 @@ AMT_PAYMENT - What the client actually paid on previous credit on this installme
 
 """
 """
-ideas:
+ideas to improve:
     - handle outliers in payment_delay and payment_diff
 """
 
