@@ -6,11 +6,71 @@ TODO: WRITE COMMENTS HERE
 '''
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import os
 import pyarrow.feather as feather
 import gc
-import functions as f
+
+rangeFunc = lambda x: x.max() - x.min()
+#get number of different values for given series
+def diff_vals(x):
+    dv = x.nunique()
+    return dv
+#get most frequent value for given series
+def most_freq_val(x):
+    if x.shape[0] == 0:
+        res = np.nan
+    else:
+        try:
+            res = x.value_counts().idxmax()
+        except ValueError:
+            res = np.nan
+    return res
+
+def agg_numeric(df, group_var, df_name, df_toJoin):
+    # First calculate counts
+    #counts = pd.DataFrame(df.groupby(group_var, as_index = False)[df.columns[1]].count()).rename(columns = {df.columns[1]: '%s_counts' % df_name})
+    
+    # Group by the specified variable and calculate the statistics
+    f = lambda x: x.max() - x.min()
+    f.__name__ = 'rangeFunc'
+    agg = df.groupby(group_var).agg(['mean', 'min', 'max','sum','var','std', f]).reset_index()
+    
+    # Need to create new column names
+    columns = [group_var]
+    
+    # Iterate through the variables names
+    for var in agg.columns.levels[0]:
+        # Skip the grouping variable
+        if var != group_var:
+            # Iterate through the stat names
+            for stat in agg.columns.levels[1][:-1]:
+                # Make a new column name for the variable and stat
+                columns.append('%s_%s_%s' % (df_name, var, stat))
+              
+    #  Rename the columns
+    agg.columns = columns
+    
+    # Merge with the counts
+    agg = df_toJoin.merge(agg, on = group_var, how = 'left')
+    
+    return agg
+
+def count_categorical(df, group_var, df_name, df_toJoin):
+
+    categorical = pd.get_dummies(df)
+    categorical[group_var] = df[group_var]
+    categorical = categorical.groupby(group_var).agg(['sum', 'mean'])
+    
+    column_names = []
+    
+    for var in categorical.columns.levels[0]:
+        for stat in ['count', 'count_norm']:
+            column_names.append('%s_%s_%s' % (df_name, var, stat))
+    
+    categorical.columns = column_names
+    categorical[group_var] = categorical.index
+    categorical = df_toJoin.merge(categorical, on = group_var, how = 'left')
+    
+    return categorical
 
 table = 'prev_app'
 
