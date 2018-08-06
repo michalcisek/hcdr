@@ -16,8 +16,9 @@ def one_hot_encoder(df, nan_as_category = True):
     new_columns = [c for c in df.columns if c not in original_columns]
     return df, new_columns
 
-df = pd.read_csv('1_data_import\\application_train.csv')
-test_df = pd.read_csv('1_data_import\\application_test.csv')
+df = pd.read_csv(r'1_data_import\\application_train.csv')
+
+test_df = pd.read_csv(r'1_data_import\\application_test.csv')
 
 df = df.append(test_df).reset_index()
 
