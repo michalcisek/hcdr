@@ -25,6 +25,9 @@ ideas to improve:
 import pandas as pd
 import numpy as np
 import pyarrow.feather as feather
+import os
+
+table = "InstPaym"
 
 #get most frequent value for given series
 def most_freq_val(x):
@@ -84,4 +87,10 @@ df = df.groupby('SK_ID_CURR').\
 df.columns = [i[0] if i[1] == '' else '_'.join(reversed(i)) for i in df.columns.values]
 
 #save as feather file
-feather.write_feather(df, 'instalment_payments')
+#feather.write_feather(df, 'instalment_payments')
+
+suffix = '.feather'
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
+
+feather.write_feather(df, filePath)
