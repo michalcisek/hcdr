@@ -13,6 +13,7 @@ mowi to o wykorzystaniu dostepnego limitu, czyli ile było pociagniec w danym mi
 import pandas as pd
 import pyarrow.feather as feather
 import gc
+import os as os
 
 table = 'credCardBal'
 app_train = pd.read_csv(r'1_data_import\application_train.csv')
@@ -57,7 +58,11 @@ agg['SK_ID_CURR'] = agg.index
 application = application.merge(agg, on = 'SK_ID_CURR', how = 'left')
 
 gc.enable()
-del table, app_train, app_test, credCardBal, df
+del app_train, app_test, credCardBal, df
 gc.collect()
 
-feather.write_feather(application, 'credCardBal_features')
+suffix = '.feather'
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
+
+feather.write_feather(application, filePath)

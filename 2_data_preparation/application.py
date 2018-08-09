@@ -7,6 +7,9 @@ ideas to improve:
 import pandas as pd
 import numpy as np
 import pyarrow.feather as feather
+import os
+
+table = 'Appl'
 
 #one-hot encoding for categorical columns with get_dummies
 def one_hot_encoder(df, nan_as_category = True):
@@ -66,4 +69,10 @@ for bin_feature in ['CODE_GENDER', 'FLAG_OWN_CAR', 'FLAG_OWN_REALTY']:
 df = one_hot_encoder(df, nan_as_category = True)
 
 #save as feather file
-feather.write_feather(df, 'application')
+#feather.write_feather(df, 'application')
+
+suffix = '.feather'
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
+
+feather.write_feather(df, filePath)

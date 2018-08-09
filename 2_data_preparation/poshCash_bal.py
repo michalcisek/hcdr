@@ -4,6 +4,7 @@ TODO:
     - 
     - 
 '''
+import os as os
 import pandas as pd
 import pyarrow.feather as feather
 
@@ -41,4 +42,9 @@ agg2['SK_ID_CURR'] = agg2.index
 
 application = application.merge(agg2, on = 'SK_ID_CURR', how = 'left')
 
-feather.write_feather(application, 'posCashBal_features')
+suffix = '.feather'
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
+
+feather.write_feather(application, filePath)
+

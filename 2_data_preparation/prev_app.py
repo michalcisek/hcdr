@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import pyarrow.feather as feather
 import gc
+import os as os
 
 rangeFunc = lambda x: x.max() - x.min()
 #get number of different values for given series
@@ -72,7 +73,7 @@ def count_categorical(df, group_var, df_name, df_toJoin):
     
     return categorical
 
-table = 'prev_app'
+table = 'prevApp'
 
 #os.getcwd()
 #path = "C:\\Users\klenczewsk001\Desktop\kaggle_HomeCredit\hcdr\hcdr"
@@ -123,5 +124,10 @@ del prev_app_Approved, prev_app_Canceled, numerics, Approved, Canceled, dfObject
 gc.collect()
 
 # save features to feather file
-feather.write_feather(application, 'prevApp_features')
+#feather.write_feather(application, 'prevApp_features')
 
+suffix = '.feather'
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
+
+feather.write_feather(application, filePath)
