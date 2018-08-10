@@ -2,6 +2,8 @@
 """
 Created on Tue Aug  7 19:22:16 2018
 
+-- dorzucic train/test z Targetem
+
 @author: klenczewsk001
 """
 import glob
