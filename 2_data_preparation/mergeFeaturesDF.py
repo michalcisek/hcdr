@@ -9,8 +9,11 @@ Created on Tue Aug  7 19:22:16 2018
 import glob
 import os
 import pyarrow.feather as feather
+
 import pandas as pd    
 from functools import reduce
+
+# os.chdir("C:/Users/ppitera002/Documents/hcdr/hcdr")
 
 filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features')
 
@@ -23,3 +26,7 @@ for file in all_files:
     dfList.append(df)
     
 featuresDF = reduce(lambda x, y: pd.merge(x, y, on = 'SK_ID_CURR'), dfList)
+
+filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', 'sample.feather')
+
+feather.write_feather(featuresDF, filePath)
