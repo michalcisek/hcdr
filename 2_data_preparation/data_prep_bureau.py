@@ -22,13 +22,13 @@ def one_hot_encoder(df, nan_as_category=True):
 
 # In[7]:
 
-app_train = pd.read_csv("../1_data_import/application_train.csv")
+app_train = pd.read_csv("1_data_import/application_train.csv")
 print('Training data shape: ', app_train.shape)
 # app_train.head()
 
 # In[8]:
 
-bureau = pd.read_csv("../1_data_import/bureau.csv")
+bureau = pd.read_csv("1_data_import/bureau.csv")
 print('Bureau shape: ', bureau.shape)
 # bureau.head()
 
@@ -61,7 +61,7 @@ bureau_sum = bureau_sum.reset_index()
 
 # In[12]:
 
-bureau_balance = pd.read_csv("../1_data_import/bureau_balance.csv")
+bureau_balance = pd.read_csv("1_data_import/bureau_balance.csv")
 bureau_balance_last_active = bureau_balance[bureau_balance.STATUS != 'C'].groupby('SK_ID_BUREAU').max().reset_index()
 
 # In[13]:

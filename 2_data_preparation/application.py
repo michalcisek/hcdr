@@ -75,4 +75,4 @@ suffix = '.feather'
 
 filePath = os.path.join(os.getcwd(), '2_data_preparation', 'features', table + '_features' + suffix)
 
-feather.write_feather(df, filePath)
+feather.write_feather(df[0], filePath)
