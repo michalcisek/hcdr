@@ -55,11 +55,15 @@ for n_fold, (trn_idx, val_idx) in enumerate(folds.split(x_train)):
     trn_x, trn_y = x_train[feats].iloc[trn_idx], y_train.iloc[trn_idx]
     val_x, val_y = x_train[feats].iloc[val_idx], y_train.iloc[val_idx]
     
+    #clf = LGBMClassifier(n_estimators=4000, learning_rate=0.03,
+    #    num_leaves=30, colsample_bytree=.8,
+    #    subsample=.9, max_depth=7, reg_alpha=.1,
+    #    reg_lambda=.1, min_split_gain=.01,
+    #    min_child_weight=2, silent=-1, verbose=-1)
+    
     clf = LGBMClassifier(n_estimators=4000, learning_rate=0.03,
-        num_leaves=30, colsample_bytree=.8,
-        subsample=.9, max_depth=7, reg_alpha=.1,
-        reg_lambda=.1, min_split_gain=.01,
-        min_child_weight=2, silent=-1, verbose=-1)
+        num_leaves=112, colsample_bytree=.38,
+        subsample=.9, max_depth=6, silent=-1, verbose=-1)
     
     clf.fit(trn_x, trn_y, eval_set= [(trn_x, trn_y), (val_x, val_y)], 
             eval_metric='auc', verbose=100, early_stopping_rounds=100)
